@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron">
+	<div class="page-header">
+	  <h1>Process Monitoring Dashboard</h1>
+	</div>
+ </div>
+ 
+ <div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Process Information</div>
+	
+	
+	<ul class="nav nav-tabs" role="tablist">
+	
+	  <li class="active"><a href="#">{{ proc_data_host }}</a></li>
+	  <li><a href="#">Profile</a></li>
+	  <li><a href="#">Messages</a></li>
+	</ul>
+  
+  {% include 'graph.html' %}
+  {% include 'info.html' %}
+
+ </div>
+
+ 
+{% endblock %}

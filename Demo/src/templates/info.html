@@ -1,0 +1,58 @@
+  <!-- Table -->
+  <table class="table table-hover">
+  <tr>	
+  	<th>#</th>
+  	<th>Process Id</th>
+  	<th>Process Command</th>
+  	<th>Start Time</th>
+  	<th>Elapsed Time</th>
+  	<th>Process Status</th>
+  	
+   </tr>
+   {% for data in json_results %}
+      
+   <tr data-row-key="{{ data[0].process_id }}">
+   	<td>{{ loop.index }}</td>
+   	<td>{{ data[0].process_id }}</td>
+   	<td>{{ data[0].process_command }}</td>
+   	<td>{{ data[0].start_time }}</td>
+   	<td>{{ data[2] }}</td>
+  
+	 {% if data[1].process_Status == 'sleeping' %}
+	 
+  		<td>
+  		<label type="label" class="label label-warning" 
+  			data-toggle="tooltip" data-placement="left" title="{{ data[1].process_Status }}">
+  			{{ data[1].process_Status }}
+  		</label>
+  		</td>
+  		
+  	 {% elif data[1].process_Status == 'running' %}
+  		<td>
+  		<label type="label" class="label label-success" 
+  			data-toggle="tooltip" data-placement="left" title="{{ data[1].process_Status }}">
+  			{{ data[1].process_Status }}
+  		</label>
+  		</td>
+  	 {% elif data[1].process_Status == 'stopped' %}
+  	 	<td>
+  		<label type="label" class="label label-danger" 
+  			data-toggle="tooltip" data-placement="left" title="{{ data[1].process_Status }}">
+  			{{ data[1].process_Status }}
+  		</label>
+  		</td>
+  	 {% else %}
+  	 	<td>
+  		<label type="label" class="label label-info" 
+  			data-toggle="tooltip" data-placement="left" title="{{ data[1].process_Status }}">
+  			{{ data[1].process_Status }}
+  		</label>
+  		</td>
+  	 {% endif %}
+  </tr>
+
+  {% endfor %}
+  
+  </table>
+  
+  
