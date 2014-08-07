@@ -33,8 +33,8 @@ class ProcessStatus(db.Model):
     __tablename__ = 'process_status'
     proc_sid = db.Column(db.Integer, primary_key = True)
     process_id = db.Column(db.Integer, ForeignKey('process_info.process_id'))
-    cpu_usage = db.Column(db.String(50))
-    memory_usage = db.Column(db.String(50))
+    cpu_usage = db.Column(db.Float)
+    memory_usage = db.Column(db.Float)
     process_Status = db.Column(db.String(50))
     created_at = db.Column(db.String(50))
     

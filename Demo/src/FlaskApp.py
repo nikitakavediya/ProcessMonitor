@@ -62,7 +62,8 @@ def index():
     elapsed_time = []
     json_results = []
     
-    proc_data_host = db.session.query(ProcessInfo.host).group_by(ProcessInfo.host).all()
+    que = db.session.query(ProcessInfo.host.distinct().label("host"))
+    proc_data_host = [row.host for row in que.all()]
     proc_data = ProcessInfo.query.offset(0).all()
     proc_stat = ProcessStatus.query.filter_by(process_id = ProcessInfo.process_id).all()
     
@@ -76,7 +77,32 @@ def index():
             elapsed_time.append(abs((d2 - d1))) 
        
         json_results = zip(proc_data,proc_stat,elapsed_time)
-        return render_template('index.html', json_results=json_results, proc_data_host=proc_data_host)
+        return render_template('index.html', json_results=json_results, proc_data_host=proc_data_host, length=len(proc_data_host))
     
+@app.route('/load_ajax/<pid>', methods=["GET"])
+def load_ajax(pid):
+        
+        result = ProcessStatus.query.filter_by(process_id = pid).all()
+        cpu_mem = []
+        cpu_use = []
+        mem_use = []
+        time_str = []
+        for data in result:
+            created_time = data.created_at
+            cpu_use.append(data.cpu_usage)
+            mem_use.append(data.memory_usage)
+        
+        created_time = datetime.strptime(created_time, "%Y-%m-%d %H:%M:%S")
+        time_str.append(created_time.year) 
+        time_str.append(created_time.month) 
+        time_str.append(created_time.day) 
+        time_str.append(created_time.hour) 
+        time_str.append(created_time.minute) 
+           
+        cpu_mem.append(cpu_use)
+        cpu_mem.append(mem_use)
+        cpu_mem.append(time_str)
+        return json.dumps(cpu_mem)
+
 
 app.run(debug=True)   
